@@ -1,0 +1,11 @@
+/* https://cdn.skypack.dev/-/@lit/reactive-element@v1.0.0-rc.2-810hxb6J93lP2Fvpv3EZ/dist=es2020,mode=imports/optimized/@lit/reactive-element/decorators/custom-element.js */
+const mod7 = (async () => {
+    const n = (n2) => (e) => typeof e == "function" ? ((n3, e2) => (window.customElements.define(n3, e2), e2))(n2, e) : ((n3, e2) => {
+        const { kind: t, elements: i } = e2;
+        return { kind: t, elements: i, finisher(e3) {
+                window.customElements.define(n3, e3);
+            } };
+    })(n2, e);
+    const _default = null;
+    return { default: _default, customElement: n };
+})();

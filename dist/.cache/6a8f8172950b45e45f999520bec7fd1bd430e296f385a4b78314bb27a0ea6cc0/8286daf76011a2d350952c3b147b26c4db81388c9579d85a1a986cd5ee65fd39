@@ -1,0 +1,5 @@
+/* https://cdn.skypack.dev/lit */
+const mod = (async () => {
+    const { default: _default } = await mod2;
+    return { default: _default, ...await mod2 };
+})();

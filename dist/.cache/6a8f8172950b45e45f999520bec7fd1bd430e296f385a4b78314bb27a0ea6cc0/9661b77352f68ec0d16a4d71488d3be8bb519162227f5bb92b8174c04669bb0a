@@ -1,0 +1,12 @@
+/* https://cdn.skypack.dev/-/@lit/reactive-element@v1.0.0-rc.2-810hxb6J93lP2Fvpv3EZ/dist=es2020,mode=imports/optimized/@lit/reactive-element/decorators/query-all.js */
+const mod12 = (async () => {
+    const { decorateProperty: o } = await mod16;
+    function e(e2) {
+        return o({ descriptor: (r) => ({ get() {
+                    var r2;
+                    return (r2 = this.renderRoot) === null || r2 === void 0 ? void 0 : r2.querySelectorAll(e2);
+                }, enumerable: true, configurable: true }) });
+    }
+    const _default = null;
+    return { default: _default, queryAll: e };
+})();

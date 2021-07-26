@@ -1,0 +1,9 @@
+/* https://cdn.skypack.dev/-/@lit/reactive-element@v1.0.0-rc.2-810hxb6J93lP2Fvpv3EZ/dist=es2020,mode=imports/optimized/@lit/reactive-element/decorators/state.js */
+const mod9 = (async () => {
+    const { property: e } = await mod8;
+    function r(r2) {
+        return e({ ...r2, state: true, attribute: false });
+    }
+    const _default = null;
+    return { default: _default, state: r };
+})();
