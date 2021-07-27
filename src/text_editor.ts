@@ -3,14 +3,20 @@ import { customElement, property } from 'https://cdn.skypack.dev/lit/decorators'
 
 @customElement("text-editor")
 export class TextEditor extends LitElement {
-    @property()
-    name = "hello";
+
+    static styles = css`div {color : red; width : 100% }`
 
     @property()
-    value = 1;
-    
-    render() {
-        return html`<div>${value}  : <span>${name}</span> </div>`;
+    name = "hello!!!!";
+
+    @property()
+    value = 21221;
+
+    @property()
+    newValue = 'gogogo1';
+
+    render(): any {
+        return html`<div>${this.value}  : <span>${this.name}</span> </div>`;
     }
 
 }
