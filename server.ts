@@ -7,12 +7,13 @@ router.get('/hello', (context) => {
     context.response.body = 'test!!';
 });
 
-app.use(router.routes()).use(async (context) => {
+app.use(async (context) => {
+    console.log(context.request.url);
     await send(context, context.request.url.pathname, {
-        root: `${Deno.cwd()}/dist`,
+        root: `${Deno.cwd()}`,
         index: `index.html`
     });
-})
+}).use(router.routes());
 
 app.use(router.allowedMethods());
 

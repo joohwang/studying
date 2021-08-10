@@ -1,7 +1,0 @@
-/* https://cdn.skypack.dev/-/lit@v2.0.0-rc.2-TSkkpP2AxiJKOJvPcy1M/dist=es2020,mode=imports/optimized/lit.js */
-const mod2 = (async () => {
-    await mod4
-    await mod5
-    const _default = null;
-    return { default: _default, ...await mod6 };
-})();
