@@ -620,944 +620,6 @@ const e5 = (e26, t27, o23)=>{
         }
     }
 ;
-var indexOf = [].indexOf;
-var indexof = function(arr, obj) {
-    if (indexOf) return arr.indexOf(obj);
-    for(var i11 = 0; i11 < arr.length; ++i11){
-        if (arr[i11] === obj) return i11;
-    }
-    return -1;
-};
-var classList = ClassList;
-function ClassList(elem) {
-    var cl = elem.classList;
-    if (cl) {
-        return cl;
-    }
-    var classList2 = {
-        add,
-        remove,
-        contains,
-        toggle,
-        toString: $toString,
-        length: 0,
-        item
-    };
-    return classList2;
-    function add(token) {
-        var list = getTokens();
-        if (indexof(list, token) > -1) {
-            return;
-        }
-        list.push(token);
-        setTokens(list);
-    }
-    function remove(token) {
-        var list = getTokens(), index = indexof(list, token);
-        if (index === -1) {
-            return;
-        }
-        list.splice(index, 1);
-        setTokens(list);
-    }
-    function contains(token) {
-        return indexof(getTokens(), token) > -1;
-    }
-    function toggle(token) {
-        if (contains(token)) {
-            remove(token);
-            return false;
-        } else {
-            add(token);
-            return true;
-        }
-    }
-    function $toString() {
-        return elem.className;
-    }
-    function item(index) {
-        var tokens = getTokens();
-        return tokens[index] || null;
-    }
-    function getTokens() {
-        var className = elem.className;
-        return filter(className.split(" "), isTruthy);
-    }
-    function setTokens(list) {
-        var length = list.length;
-        elem.className = list.join(" ");
-        classList2.length = length;
-        for(var i11 = 0; i11 < list.length; i11++){
-            classList2[i11] = list[i11];
-        }
-        delete list[length];
-    }
-}
-function filter(arr, fn) {
-    var ret = [];
-    for(var i11 = 0; i11 < arr.length; i11++){
-        if (fn(arr[i11])) ret.push(arr[i11]);
-    }
-    return ret;
-}
-function isTruthy(value) {
-    return !!value;
-}
-var PROPS_TO_ATTRS = {
-    className: "class",
-    htmlFor: "for"
-};
-var HTML_ATTRIBUTES = {
-    accept: new Set([
-        "form",
-        "input"
-    ]),
-    "accept-charset": new Set([
-        "form"
-    ]),
-    accesskey: "GLOBAL",
-    action: new Set([
-        "form"
-    ]),
-    align: new Set([
-        "applet",
-        "caption",
-        "col",
-        "colgroup",
-        "hr",
-        "iframe",
-        "img",
-        "table",
-        "tbody",
-        "td",
-        "tfoot",
-        "th",
-        "thead",
-        "tr"
-    ]),
-    alt: new Set([
-        "applet",
-        "area",
-        "img",
-        "input"
-    ]),
-    async: new Set([
-        "script"
-    ]),
-    autocomplete: new Set([
-        "form",
-        "input"
-    ]),
-    autofocus: new Set([
-        "button",
-        "input",
-        "keygen",
-        "select",
-        "textarea"
-    ]),
-    autoplay: new Set([
-        "audio",
-        "video"
-    ]),
-    autosave: new Set([
-        "input"
-    ]),
-    bgcolor: new Set([
-        "body",
-        "col",
-        "colgroup",
-        "marquee",
-        "table",
-        "tbody",
-        "tfoot",
-        "td",
-        "th",
-        "tr"
-    ]),
-    border: new Set([
-        "img",
-        "object",
-        "table"
-    ]),
-    buffered: new Set([
-        "audio",
-        "video"
-    ]),
-    challenge: new Set([
-        "keygen"
-    ]),
-    charset: new Set([
-        "meta",
-        "script"
-    ]),
-    checked: new Set([
-        "command",
-        "input"
-    ]),
-    cite: new Set([
-        "blockquote",
-        "del",
-        "ins",
-        "q"
-    ]),
-    class: "GLOBAL",
-    code: new Set([
-        "applet"
-    ]),
-    codebase: new Set([
-        "applet"
-    ]),
-    color: new Set([
-        "basefont",
-        "font",
-        "hr"
-    ]),
-    cols: new Set([
-        "textarea"
-    ]),
-    colspan: new Set([
-        "td",
-        "th"
-    ]),
-    content: new Set([
-        "meta"
-    ]),
-    contenteditable: "GLOBAL",
-    contextmenu: "GLOBAL",
-    controls: new Set([
-        "audio",
-        "video"
-    ]),
-    coords: new Set([
-        "area"
-    ]),
-    data: new Set([
-        "object"
-    ]),
-    datetime: new Set([
-        "del",
-        "ins",
-        "time"
-    ]),
-    default: new Set([
-        "track"
-    ]),
-    defer: new Set([
-        "script"
-    ]),
-    dir: "GLOBAL",
-    dirname: new Set([
-        "input",
-        "textarea"
-    ]),
-    disabled: new Set([
-        "button",
-        "command",
-        "fieldset",
-        "input",
-        "keygen",
-        "optgroup",
-        "option",
-        "select",
-        "textarea"
-    ]),
-    download: new Set([
-        "a",
-        "area"
-    ]),
-    draggable: "GLOBAL",
-    dropzone: "GLOBAL",
-    enctype: new Set([
-        "form"
-    ]),
-    for: new Set([
-        "label",
-        "output"
-    ]),
-    form: new Set([
-        "button",
-        "fieldset",
-        "input",
-        "keygen",
-        "label",
-        "meter",
-        "object",
-        "output",
-        "progress",
-        "select",
-        "textarea"
-    ]),
-    formaction: new Set([
-        "input",
-        "button"
-    ]),
-    headers: new Set([
-        "td",
-        "th"
-    ]),
-    height: new Set([
-        "canvas",
-        "embed",
-        "iframe",
-        "img",
-        "input",
-        "object",
-        "video"
-    ]),
-    hidden: "GLOBAL",
-    high: new Set([
-        "meter"
-    ]),
-    href: new Set([
-        "a",
-        "area",
-        "base",
-        "link"
-    ]),
-    hreflang: new Set([
-        "a",
-        "area",
-        "link"
-    ]),
-    "http-equiv": new Set([
-        "meta"
-    ]),
-    icon: new Set([
-        "command"
-    ]),
-    id: "GLOBAL",
-    ismap: new Set([
-        "img"
-    ]),
-    itemprop: "GLOBAL",
-    keytype: new Set([
-        "keygen"
-    ]),
-    kind: new Set([
-        "track"
-    ]),
-    label: new Set([
-        "track"
-    ]),
-    lang: "GLOBAL",
-    language: new Set([
-        "script"
-    ]),
-    list: new Set([
-        "input"
-    ]),
-    loop: new Set([
-        "audio",
-        "bgsound",
-        "marquee",
-        "video"
-    ]),
-    low: new Set([
-        "meter"
-    ]),
-    manifest: new Set([
-        "html"
-    ]),
-    max: new Set([
-        "input",
-        "meter",
-        "progress"
-    ]),
-    maxlength: new Set([
-        "input",
-        "textarea"
-    ]),
-    maxlength: new Set([
-        "input",
-        "textarea"
-    ]),
-    media: new Set([
-        "a",
-        "area",
-        "link",
-        "source",
-        "style"
-    ]),
-    method: new Set([
-        "form"
-    ]),
-    min: new Set([
-        "input",
-        "meter"
-    ]),
-    multiple: new Set([
-        "input",
-        "select"
-    ]),
-    muted: new Set([
-        "video"
-    ]),
-    name: new Set([
-        "button",
-        "form",
-        "fieldset",
-        "iframe",
-        "input",
-        "keygen",
-        "object",
-        "output",
-        "select",
-        "textarea",
-        "map",
-        "meta",
-        "param"
-    ]),
-    novalidate: new Set([
-        "form"
-    ]),
-    open: new Set([
-        "details"
-    ]),
-    optimum: new Set([
-        "meter"
-    ]),
-    pattern: new Set([
-        "input"
-    ]),
-    ping: new Set([
-        "a",
-        "area"
-    ]),
-    placeholder: new Set([
-        "input",
-        "textarea"
-    ]),
-    poster: new Set([
-        "video"
-    ]),
-    preload: new Set([
-        "audio",
-        "video"
-    ]),
-    radiogroup: new Set([
-        "command"
-    ]),
-    readonly: new Set([
-        "input",
-        "textarea"
-    ]),
-    rel: new Set([
-        "a",
-        "area",
-        "link"
-    ]),
-    required: new Set([
-        "input",
-        "select",
-        "textarea"
-    ]),
-    reversed: new Set([
-        "ol"
-    ]),
-    rows: new Set([
-        "textarea"
-    ]),
-    rowspan: new Set([
-        "td",
-        "th"
-    ]),
-    sandbox: new Set([
-        "iframe"
-    ]),
-    scope: new Set([
-        "th"
-    ]),
-    scoped: new Set([
-        "style"
-    ]),
-    seamless: new Set([
-        "iframe"
-    ]),
-    selected: new Set([
-        "option"
-    ]),
-    shape: new Set([
-        "a",
-        "area"
-    ]),
-    size: new Set([
-        "input",
-        "select"
-    ]),
-    sizes: new Set([
-        "img",
-        "link",
-        "source"
-    ]),
-    span: new Set([
-        "col",
-        "colgroup"
-    ]),
-    spellcheck: "GLOBAL",
-    src: new Set([
-        "audio",
-        "embed",
-        "iframe",
-        "img",
-        "input",
-        "script",
-        "source",
-        "track",
-        "video"
-    ]),
-    srcdoc: new Set([
-        "iframe"
-    ]),
-    srclang: new Set([
-        "track"
-    ]),
-    srcset: new Set([
-        "img"
-    ]),
-    start: new Set([
-        "ol"
-    ]),
-    step: new Set([
-        "input"
-    ]),
-    style: "GLOBAL",
-    summary: new Set([
-        "table"
-    ]),
-    tabindex: "GLOBAL",
-    target: new Set([
-        "a",
-        "area",
-        "base",
-        "form"
-    ]),
-    title: "GLOBAL",
-    type: new Set([
-        "button",
-        "input",
-        "command",
-        "embed",
-        "object",
-        "script",
-        "source",
-        "style",
-        "menu"
-    ]),
-    usemap: new Set([
-        "img",
-        "input",
-        "object"
-    ]),
-    value: new Set([
-        "button",
-        "option",
-        "input",
-        "li",
-        "meter",
-        "progress",
-        "param"
-    ]),
-    width: new Set([
-        "canvas",
-        "embed",
-        "iframe",
-        "img",
-        "input",
-        "object",
-        "video"
-    ]),
-    wrap: new Set([
-        "textarea"
-    ])
-};
-function isStandardAttribute(attrName, tagName) {
-    tagName = tagName.toLowerCase();
-    var attr = HTML_ATTRIBUTES[attrName.toLowerCase()];
-    return !!attr && (attr === "GLOBAL" || attr.has(tagName));
-}
-function propToAttr(prop) {
-    return PROPS_TO_ATTRS[prop] || prop;
-}
-var htmlAttributes = {
-    isStandardAttribute,
-    propToAttr
-};
-function Event1(type, data) {
-    this.type = type;
-    this.target = null;
-    Object.keys(data || {
-    }).forEach(function(attr) {
-        this[attr] = data[attr];
-    }, this);
-}
-Event1.prototype.preventDefault = function() {
-};
-Event1.prototype.stopPropagation = function() {
-};
-Event1.prototype.stopImmediatePropagation = function() {
-};
-function addEventListener(eventType, listener) {
-    this._eventListeners = this._eventListeners || {
-    };
-    this._eventListeners[eventType] = this._eventListeners[eventType] || [];
-    var listeners = this._eventListeners[eventType];
-    if (listeners.indexOf(listener) === -1) {
-        listeners.push(listener);
-    }
-}
-function removeEventListener(eventType, listener) {
-    var listeners = this._eventListeners && this._eventListeners[eventType];
-    if (listeners) {
-        var index = listeners.indexOf(listener);
-        if (index !== -1) {
-            listeners.splice(index, 1);
-        }
-    }
-}
-function dispatchEvent(event) {
-    event.target = this;
-    var listeners = this._eventListeners && this._eventListeners[event.type];
-    if (listeners) {
-        listeners.forEach(function(listener) {
-            listener(event);
-        });
-    }
-    return true;
-}
-function Document1() {
-}
-Document1.prototype.createTextNode = function(v1) {
-    var n6 = new Text1();
-    n6.textContent = v1;
-    n6.nodeName = "#text";
-    n6.nodeType = 3;
-    return n6;
-};
-Document1.prototype.createElement = function(nodeName) {
-    var el = new Element1();
-    el.nodeName = el.tagName = nodeName;
-    return el;
-};
-Document1.prototype.createComment = function(data) {
-    var el = new Comment1();
-    el.data = data;
-    return el;
-};
-Document1.prototype.addEventListener = addEventListener;
-Document1.prototype.removeEventListener = removeEventListener;
-Document1.prototype.dispatchEvent = dispatchEvent;
-function Node1() {
-}
-Text1.prototype = new Node1();
-Element1.prototype = new Node1();
-Comment1.prototype = new Node1();
-function Style(el) {
-    this.el = el;
-    this.styles = [];
-}
-Style.prototype.setProperty = function(n6, v1) {
-    this.el._setProperty(this.styles, {
-        name: n6,
-        value: v1
-    });
-};
-Style.prototype.getProperty = function(n6) {
-    return this.el._getProperty(this.styles, n6);
-};
-Style.prototype.__defineGetter__("cssText", function() {
-    var stylified = "";
-    this.styles.forEach(function(s5) {
-        stylified += s5.name + ":" + s5.value + ";";
-    });
-    return stylified;
-});
-Style.prototype.__defineSetter__("cssText", function(v1) {
-    this.styles.length = 0;
-    v1.split(";").forEach(function(part) {
-        var splitPoint = part.indexOf(":");
-        if (splitPoint) {
-            var key = part.slice(0, splitPoint).trim();
-            var value = part.slice(splitPoint + 1).trim();
-            this.setProperty(key, value);
-        }
-    }, this);
-});
-function Attribute(name, value) {
-    if (name) {
-        this.name = name;
-        this.value = value ? value : "";
-    }
-}
-function Element1() {
-    var self = this;
-    this.style = new Style(this);
-    this.classList = classList(this);
-    this.childNodes = [];
-    this.attributes = [];
-    this.dataset = {
-    };
-    this.className = "";
-    this._setProperty = function(arr, obj, key, val) {
-        var p1 = self._getProperty(arr, key);
-        if (p1) {
-            p1.value = String(val);
-            return;
-        }
-        arr.push(typeof obj === "function" ? new obj(key.toLowerCase(), String(val)) : obj);
-    };
-    this._getProperty = function(arr, key) {
-        if (!key) return;
-        key = key.toLowerCase();
-        for(var i11 = 0; i11 < arr.length; i11++){
-            if (key === arr[i11].name) return arr[i11];
-        }
-    };
-}
-Element1.prototype.nodeType = 1;
-Element1.prototype.appendChild = function(child) {
-    child.parentElement = this;
-    this.childNodes.push(child);
-    return child;
-};
-Element1.prototype.setAttribute = function(n6, v1) {
-    if (n6 === "style") {
-        this.style.cssText = v1;
-    } else {
-        this._setProperty(this.attributes, Attribute, n6, v1);
-    }
-};
-Element1.prototype.getAttribute = function(n6) {
-    if (n6 === "style") {
-        return this.style.cssText;
-    } else {
-        var result = this._getProperty(this.attributes, n6);
-        return typeof result !== "undefined" ? result.value : null;
-    }
-};
-Element1.prototype.removeAttribute = function(n6) {
-    if (n6 === "class") {
-        delete this.className;
-    } else {
-        for(var i11 = 0, len = this.attributes.length; i11 < len; i11++){
-            if (this.attributes[i11].name === n6) {
-                this.attributes.splice(i11, 1);
-                break;
-            }
-        }
-    }
-};
-Element1.prototype.replaceChild = function(newChild, oldChild) {
-    var self = this;
-    var replaced = false;
-    this.childNodes.forEach(function(child, index) {
-        if (child === oldChild) {
-            self.childNodes[index] = newChild;
-            newChild.parentElement = this;
-            replaced = true;
-        }
-    });
-    if (replaced) return oldChild;
-};
-Element1.prototype.removeChild = function(rChild) {
-    var self = this;
-    var removed = true;
-    this.childNodes.forEach(function(child, index) {
-        if (child === rChild) {
-            self.childNodes.splice(index, 1);
-            rChild.parentElement = null;
-            removed = true;
-        }
-    });
-    if (removed) return rChild;
-};
-Element1.prototype.insertBefore = function(newChild, existingChild) {
-    var childNodes = this.childNodes;
-    if (existingChild === null) {
-        childNodes.push(newChild);
-    } else {
-        for(var i12 = 0, len = childNodes.length; i12 < len; i12++){
-            var child = childNodes[i12];
-            if (child === existingChild) {
-                i12 === 0 ? childNodes.unshift(newChild) : childNodes.splice(i12, 0, newChild);
-                break;
-            }
-        }
-    }
-    newChild.parentElement = this;
-    return newChild;
-};
-Element1.prototype.addEventListener = addEventListener;
-Element1.prototype.removeEventListener = removeEventListener;
-Element1.prototype.dispatchEvent = dispatchEvent;
-Element1.prototype.insertAdjacentHTML = function(position, text) {
-};
-Element1.prototype.__defineGetter__("innerHTML", function() {
-    var s5 = this.childNodes.html || "";
-    this.childNodes.forEach(function(e6) {
-        s5 += e6.outerHTML || e6.textContent;
-    });
-    return s5;
-});
-Element1.prototype.__defineSetter__("innerHTML", function(v1) {
-    this.childNodes.length = 0;
-    this.childNodes.html = v1;
-});
-Element1.prototype.__defineGetter__("outerHTML", function() {
-    var a4 = [], self = this;
-    var VOID_ELEMENTS = {
-        AREA: true,
-        BASE: true,
-        BR: true,
-        COL: true,
-        EMBED: true,
-        HR: true,
-        IMG: true,
-        INPUT: true,
-        KEYGEN: true,
-        LINK: true,
-        META: true,
-        PARAM: true,
-        SOURCE: true,
-        TRACK: true,
-        WBR: true
-    };
-    function _stringify(arr) {
-        var attr = [], value;
-        arr.forEach(function(a21) {
-            value = a21.name != "style" ? a21.value : self.style.cssText;
-            attr.push(a21.name + '="' + escapeAttribute(value) + '"');
-        });
-        return attr.length ? " " + attr.join(" ") : "";
-    }
-    function _dataify(data) {
-        var attr = [];
-        Object.keys(data).forEach(function(name) {
-            attr.push("data-" + name + '="' + escapeAttribute(data[name]) + '"');
-        });
-        return attr.length ? " " + attr.join(" ") : "";
-    }
-    function _propertify() {
-        var props = [];
-        for(var key in self){
-            var attrName = htmlAttributes.propToAttr(key);
-            if (self.hasOwnProperty(key) && [
-                "string",
-                "boolean",
-                "number"
-            ].indexOf(typeof self[key]) !== -1 && htmlAttributes.isStandardAttribute(attrName, self.nodeName) && _shouldOutputProp(key, attrName)) {
-                props.push({
-                    name: attrName,
-                    value: self[key]
-                });
-            }
-        }
-        return props ? _stringify(props) : "";
-    }
-    function _shouldOutputProp(prop, attr) {
-        if (self.getAttribute(attr)) {
-            return false;
-        } else {
-            if (prop === "className" && !self[prop]) {
-                return false;
-            }
-        }
-        return true;
-    }
-    var attrs = this.style.cssText ? this.attributes.concat([
-        {
-            name: "style"
-        }
-    ]) : this.attributes;
-    a4.push("<" + this.nodeName + _propertify() + _stringify(attrs) + _dataify(this.dataset) + ">");
-    if (!VOID_ELEMENTS[this.nodeName.toUpperCase()]) {
-        a4.push(this.innerHTML);
-        a4.push("</" + this.nodeName + ">");
-    }
-    return a4.join("");
-});
-Element1.prototype.__defineGetter__("textContent", function() {
-    var s5 = "";
-    this.childNodes.forEach(function(e6) {
-        s5 += e6.textContent;
-    });
-    return s5;
-});
-Element1.prototype.__defineSetter__("textContent", function(v1) {
-    var textNode = new Text1();
-    textNode.textContent = v1;
-    this.childNodes = [
-        textNode
-    ];
-    return v1;
-});
-function escapeHTML(s5) {
-    return String(s5).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-function escapeAttribute(s5) {
-    return escapeHTML(s5).replace(/"/g, "&quot;");
-}
-Element1.prototype.nodeValue = null;
-function Text1() {
-}
-Text1.prototype.nodeType = 3;
-Text1.prototype.nodeName = "#text";
-Text1.prototype.__defineGetter__("textContent", function() {
-    return escapeHTML(this.value || "");
-});
-Text1.prototype.__defineSetter__("textContent", function(v1) {
-    this.value = v1;
-});
-Text1.prototype.__defineGetter__("nodeValue", function() {
-    return escapeHTML(this.value || "");
-});
-Text1.prototype.__defineSetter__("nodeValue", function(v1) {
-    this.value = v1;
-});
-Text1.prototype.__defineGetter__("length", function() {
-    return (this.value || "").length;
-});
-Text1.prototype.replaceData = function(offset, length, str) {
-    this.value = this.value.slice(0, offset) + str + this.value.slice(offset + length);
-};
-function Comment1() {
-}
-Comment1.prototype.nodeType = 8;
-Comment1.prototype.nodeName = "#comment";
-Comment1.prototype.__defineGetter__("data", function() {
-    return this.value;
-});
-Comment1.prototype.__defineSetter__("data", function(v1) {
-    this.value = v1;
-});
-Comment1.prototype.__defineGetter__("outerHTML", function() {
-    return "<!--" + escapeHTML(this.value || "") + "-->";
-});
-Comment1.prototype.__defineGetter__("nodeValue", function() {
-    return escapeHTML(this.value || "");
-});
-Comment1.prototype.__defineSetter__("nodeValue", function(v1) {
-    this.value = v1;
-});
-function defineParentNode(obj) {
-    obj.__defineGetter__("parentNode", function() {
-        return this.parentElement;
-    });
-}
-defineParentNode(Element1.prototype);
-defineParentNode(Comment1.prototype);
-defineParentNode(Text1.prototype);
-defineParentNode(Node1.prototype);
-var htmlElement = {
-    Document: Document1,
-    Node: Node1,
-    Element: Element1,
-    Comment: Comment1,
-    Text: Text1,
-    document: new Document1(),
-    Event: Event1,
-    CustomEvent: Event1
-};
-var Element$1 = htmlElement.Element;
 const t12 = {
     ATTRIBUTE: 1,
     CHILD: 2,
@@ -1565,7 +627,7 @@ const t12 = {
     BOOLEAN_ATTRIBUTE: 4,
     EVENT: 5,
     ELEMENT: 6
-}, i13 = (t27)=>(...i214)=>({
+}, i11 = (t27)=>(...i214)=>({
             _$litDirective$: t27,
             values: i214
         })
@@ -1583,7 +645,7 @@ class s5 {
         return this.render(...i2);
     }
 }
-const i14 = i13(class extends s5 {
+const i12 = i11(class extends s5 {
     constructor(t$1){
         var e6;
         if (super(t$1), t$1.type !== t12.ATTRIBUTE || t$1.name !== "style" || ((e6 = t$1.strings) === null || e6 === void 0 ? void 0 : e6.length) > 2) throw Error("The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.");
@@ -1645,9 +707,9 @@ function _initializerDefineProperty(target, property, descriptor, context) {
     });
 }
 var _class, _descriptor, _dec, _descriptor1, _dec1;
-var _dec2 = n4("p-tag");
-let PTag = _class = _dec2(((_class = class PTag1 extends h2 {
-    static styles = i1`\n        .p_editor {\n            outline : none;\n            margin : 0 0 0 0;\n        }\n    `;
+var _dec2 = n4("text-component");
+let TextComponent = _class = _dec2(((_class = class TextComponent1 extends h2 {
+    static styles = i1`.text_editor {\n        outline : none;\n        caret-color : black;\n    }`;
     constructor(){
         super();
         _initializerDefineProperty(this, "fontSize", _descriptor, this);
@@ -1655,11 +717,20 @@ let PTag = _class = _dec2(((_class = class PTag1 extends h2 {
         this.fontSize = 30;
         this.fontColor = "";
     }
+    contextMenu() {
+        throw new Error("Method not implemented.");
+    }
+    isSupport() {
+        throw new Error("Method not implemented.");
+    }
+    firstUpdated() {
+        this.renderRoot?.querySelector('div')?.focus();
+    }
+    styles() {
+        return JSON.parse(`{\n            "fontSize": "${this.fontSize}px"\n        }`);
+    }
     render() {
-        return T`<p contenteditable="true" class="p_editor" style=${i14({
-            fontSize: `${this.fontSize}px`,
-            caretColor: `black`
-        })}></p>`;
+        return T`\n            <div contenteditable="true" class="text_editor" style="${i12(this.styles())}" ></div>\n        `;
     }
 }) || _class, _dec = e4({
     type: Number
@@ -1680,7 +751,7 @@ let PTag = _class = _dec2(((_class = class PTag1 extends h2 {
     writable: true,
     initializer: void 0
 }), _class)) || _class;
-class Events {
+class ComponentBuilder {
     target;
     constructor(target){
         this.target = target;
@@ -1689,7 +760,7 @@ class Events {
         return this.getComponent(evt);
     }
     hasComponent(evt) {
-        return evt.path.findIndex((e8)=>e8 instanceof Element$1 && [
+        return evt.path.findIndex((e8)=>e8 instanceof HTMLElement && [
                 ...new Set(e8.classList)
             ].some((x)=>/editor/.test(x)
             )
@@ -1697,9 +768,14 @@ class Events {
     }
     getComponent(evt) {
         if (this.hasComponent(evt)) {
+            if (evt.type === "contextmenu") {
+                evt.preventDefault();
+                let _c = this.target.component.find((c1)=>c1.isEqualNode(evt.path[0])
+                );
+            }
             evt.path[0].focus();
         } else {
-            return new PTag();
+            return new TextComponent;
         }
     }
 }
@@ -1739,22 +815,25 @@ function _initializerDefineProperty1(target1, property, descriptor, context) {
 var _class1, _descriptor2, _dec3;
 var _dec4 = n4("text-editor");
 let TextEditor = _class1 = _dec4(((_class1 = class TextEditor1 extends h2 {
-    static styles = i1`div {height: 100%; max-width : 80%; background-color: #eeeded4a; min-height : 500px; }`;
+    static styles = i1`div:not([class]) {height: 100%; max-width : 80%; background-color: #eeeded4a; min-height : 500px; }`;
     evt;
     constructor(){
         super();
         _initializerDefineProperty1(this, "components", _descriptor2, this);
-        this.evt = new Events(this);
+        this.evt = new ComponentBuilder(this);
         this.components = [];
+    }
+    getLitElement() {
+        return this.components;
     }
     focusEdtior(evt) {
         let tag = this.evt.add(evt);
         if (tag === undefined) return void 0;
-        this.components.push(tag.render());
+        this.components.push(tag);
         this.requestUpdate();
     }
     render() {
-        return T`<div @dblclick=${this.focusEdtior} @click=${this.focusEdtior}>${this.components}</div>`;
+        return T`\n            <div @dblclick=${this.focusEdtior} @click=${this.focusEdtior} @contextmenu=${this.focusEdtior}>${this.components}</div>\n        `;
     }
 }) || _class1, _dec3 = r3(), _descriptor2 = _applyDecoratedDescriptor1(_class1.prototype, "components", [
     _dec3

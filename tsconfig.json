@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ES5",
+            "ES6",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "strictNullChecks": false,
+        "strictFunctionTypes" : false
+    }
+}

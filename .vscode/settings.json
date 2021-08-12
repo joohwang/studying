@@ -2,5 +2,6 @@
     "deno.suggest.imports.hosts": {
         "https://deno.land": false,
         "https://cdn.skypack.dev": false
-    }
+    },
+    "deno.config": "./tsconfig.json"
 }
