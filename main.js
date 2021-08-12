@@ -273,7 +273,7 @@ const o2 = globalThis.trustedTypes, l1 = o2 ? o2.createPolicy("lit-html", {
 , v = Array.isArray, a1 = (t21)=>{
     var i23;
     return v(t21) || typeof ((i23 = t21) === null || i23 === void 0 ? void 0 : i23[Symbol.iterator]) == "function";
-}, f = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _ = /-->/g, m = />/g, p = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g, $ = /'/g, g = /"/g, y = /^(?:script|style|textarea)$/i, b = (t21)=>(i24, ...s21)=>({
+}, f = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _ = /-->/g, m = />/g, p = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g, $ = /'/g, g = /"/g, y1 = /^(?:script|style|textarea)$/i, b = (t21)=>(i24, ...s21)=>({
             _$litType$: t21,
             strings: i24,
             values: s21
@@ -293,7 +293,7 @@ const o2 = globalThis.trustedTypes, l1 = o2 ? o2.createPolicy("lit-html", {
     for(let i31 = 0; i31 < s21; i31++){
         const s31 = t21[i31];
         let l2, c3, d2 = -1, v2 = 0;
-        for(; v2 < s31.length && (u2.lastIndex = v2, c3 = u2.exec(s31), c3 !== null);)v2 = u2.lastIndex, u2 === f ? c3[1] === "!--" ? u2 = _ : c3[1] !== void 0 ? u2 = m : c3[2] !== void 0 ? (y.test(c3[2]) && (o22 = RegExp("</" + c3[2], "g")), u2 = p) : c3[3] !== void 0 && (u2 = p) : u2 === p ? c3[0] === ">" ? (u2 = o22 != null ? o22 : f, d2 = -1) : c3[1] === void 0 ? d2 = -2 : (d2 = u2.lastIndex - c3[2].length, l2 = c3[1], u2 = c3[3] === void 0 ? p : c3[3] === '"' ? g : $) : u2 === g || u2 === $ ? u2 = p : u2 === _ || u2 === m ? u2 = f : (u2 = p, o22 = void 0);
+        for(; v2 < s31.length && (u2.lastIndex = v2, c3 = u2.exec(s31), c3 !== null);)v2 = u2.lastIndex, u2 === f ? c3[1] === "!--" ? u2 = _ : c3[1] !== void 0 ? u2 = m : c3[2] !== void 0 ? (y1.test(c3[2]) && (o22 = RegExp("</" + c3[2], "g")), u2 = p) : c3[3] !== void 0 && (u2 = p) : u2 === p ? c3[0] === ">" ? (u2 = o22 != null ? o22 : f, d2 = -1) : c3[1] === void 0 ? d2 = -2 : (d2 = u2.lastIndex - c3[2].length, l2 = c3[1], u2 = c3[3] === void 0 ? p : c3[3] === '"' ? g : $) : u2 === g || u2 === $ ? u2 = p : u2 === _ || u2 === m ? u2 = f : (u2 = p, o22 = void 0);
         const a2 = u2 === p && t21[i31 + 1].startsWith("/>") ? " " : "";
         h2 += u2 === f ? s31 + r2 : d2 >= 0 ? (e22.push(l2), s31.slice(0, d2) + "$lit$" + s31.slice(d2) + n2 + a2) : s31 + n2 + (d2 === -2 ? (e22.push(void 0), i31) : a2);
     }
@@ -335,7 +335,7 @@ class N {
                     }
                     for (const i32 of t31)e22.removeAttribute(i32);
                 }
-                if (y.test(e22.tagName)) {
+                if (y1.test(e22.tagName)) {
                     const t31 = e22.textContent.split(n2), i31 = t31.length - 1;
                     if (i31 > 0) {
                         e22.textContent = o2 ? o2.emptyScript : "";
@@ -707,18 +707,126 @@ function _initializerDefineProperty(target, property, descriptor, context) {
     });
 }
 var _class, _descriptor, _dec, _descriptor1, _dec1;
-var _dec2 = n4("text-component");
-let TextComponent = _class = _dec2(((_class = class TextComponent1 extends h2 {
+var _dec2 = n4("text-context-menu");
+let TextContextMenu = _class = _dec2(((_class = class TextContextMenu1 extends h2 {
+    static styles = i1`\n        .text_context {\n            position : absolute;\n            background-color : #fff;\n            box-shadow: 2px 9px 7px 0px #00000033;\n            z-index : 9999;\n        }\n    `;
+    constructor(){
+        super();
+        _initializerDefineProperty(this, "x", _descriptor, this);
+        _initializerDefineProperty(this, "y", _descriptor1, this);
+    }
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    render() {
+        return T`\n            <div class="text_context" style="${i12({
+            top: `${this.y}px`,
+            left: `${this.x}px`
+        })}">\n                <span>Font Size</span><input />\n            </div>\n        `;
+    }
+}) || _class, _dec = e4(), _dec1 = e4(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "x", [
+    _dec
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: void 0
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "y", [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: void 0
+}), _class)) || _class;
+class ContextMenuBuilder {
+    menu;
+    x;
+    y;
+    constructor(menu1){
+        this.menu = menu1;
+    }
+    setX(x) {
+        this.x = x;
+        return this;
+    }
+    setY(y) {
+        this.y = y;
+        return this;
+    }
+    build() {
+        let _m = new this.menu;
+        _m.setPosition(this.x, this.y);
+        return _m;
+    }
+}
+class ContextMenuSupport {
+    FUNCTION_NAME;
+    contextMenu;
+    builder;
+    constructor(){
+        this.FUNCTION_NAME = "contextMenu";
+    }
+    findContextMenuType(paths) {
+        let _c = paths.find((e8)=>typeof e8[this.FUNCTION_NAME] == 'function'
+        );
+        if (_c === undefined) return false;
+        this.contextMenu = _c[this.FUNCTION_NAME].call(_c);
+        this.builder = new ContextMenuBuilder(this.contextMenu);
+        return true;
+    }
+    getContextMenu(x, y) {
+        return this.builder.setX(x).setY(y).build();
+    }
+}
+function _applyDecoratedDescriptor1(target, property, decorators, descriptor, context) {
+    var desc = {
+    };
+    Object.keys(descriptor).forEach(function(key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+    if ("value" in desc || desc.initializer) {
+        desc.writable = true;
+    }
+    desc = decorators.slice().reverse().reduce(function(desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+    if (desc.initializer === void 0) {
+        Object.defineProperty(target, property, desc);
+        desc = null;
+    }
+    return desc;
+}
+function _initializerDefineProperty1(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+var _class1, _descriptor2, _dec3, _descriptor3, _dec4, _descriptor4, _dec5;
+var _dec6 = n4("text-component");
+let TextComponent = _class1 = _dec6(((_class1 = class TextComponent1 extends h2 {
     static styles = i1`.text_editor {\n        outline : none;\n        caret-color : black;\n    }`;
     constructor(){
         super();
-        _initializerDefineProperty(this, "fontSize", _descriptor, this);
-        _initializerDefineProperty(this, "fontColor", _descriptor1, this);
+        _initializerDefineProperty1(this, "fontSize", _descriptor2, this);
+        _initializerDefineProperty1(this, "fontColor", _descriptor3, this);
+        _initializerDefineProperty1(this, "menu", _descriptor4, this);
         this.fontSize = 30;
         this.fontColor = "";
     }
     contextMenu() {
-        throw new Error("Method not implemented.");
+        return TextContextMenu;
     }
     isSupport() {
         throw new Error("Method not implemented.");
@@ -730,27 +838,36 @@ let TextComponent = _class = _dec2(((_class = class TextComponent1 extends h2 {
         return JSON.parse(`{\n            "fontSize": "${this.fontSize}px"\n        }`);
     }
     render() {
-        return T`\n            <div contenteditable="true" class="text_editor" style="${i12(this.styles())}" ></div>\n        `;
+        return T`\n            ${this.menu}\n            <div contenteditable="true" class="text_editor" style="${i12(this.styles())}" ></div>\n        `;
     }
-}) || _class, _dec = e4({
+}) || _class1, _dec3 = e4({
     type: Number
-}), _dec1 = e4({
+}), _dec4 = e4({
     type: String
-}), _descriptor = _applyDecoratedDescriptor(_class.prototype, "fontSize", [
-    _dec
+}), _dec5 = e4({
+    type: TextContextMenu
+}), _descriptor2 = _applyDecoratedDescriptor1(_class1.prototype, "fontSize", [
+    _dec3
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: void 0
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "fontColor", [
-    _dec1
+}), _descriptor3 = _applyDecoratedDescriptor1(_class1.prototype, "fontColor", [
+    _dec4
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: void 0
-}), _class)) || _class;
+}), _descriptor4 = _applyDecoratedDescriptor1(_class1.prototype, "menu", [
+    _dec5
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: void 0
+}), _class1)) || _class1;
 class ComponentBuilder {
     target;
     constructor(target){
@@ -768,18 +885,13 @@ class ComponentBuilder {
     }
     getComponent(evt) {
         if (this.hasComponent(evt)) {
-            if (evt.type === "contextmenu") {
-                evt.preventDefault();
-                let _c = this.target.component.find((c1)=>c1.isEqualNode(evt.path[0])
-                );
-            }
             evt.path[0].focus();
         } else {
             return new TextComponent;
         }
     }
 }
-function _applyDecoratedDescriptor1(target1, property, decorators, descriptor, context) {
+function _applyDecoratedDescriptor2(target1, property, decorators, descriptor, context) {
     var desc = {
     };
     Object.keys(descriptor).forEach(function(key) {
@@ -803,7 +915,7 @@ function _applyDecoratedDescriptor1(target1, property, decorators, descriptor, c
     }
     return desc;
 }
-function _initializerDefineProperty1(target1, property, descriptor, context) {
+function _initializerDefineProperty2(target1, property, descriptor, context) {
     if (!descriptor) return;
     Object.defineProperty(target1, property, {
         enumerable: descriptor.enumerable,
@@ -812,14 +924,14 @@ function _initializerDefineProperty1(target1, property, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class1, _descriptor2, _dec3;
-var _dec4 = n4("text-editor");
-let TextEditor = _class1 = _dec4(((_class1 = class TextEditor1 extends h2 {
+var _class2, _descriptor5, _dec7;
+var _dec8 = n4("text-editor");
+let TextEditor = _class2 = _dec8(((_class2 = class TextEditor1 extends h2 {
     static styles = i1`div:not([class]) {height: 100%; max-width : 80%; background-color: #eeeded4a; min-height : 500px; }`;
     evt;
     constructor(){
         super();
-        _initializerDefineProperty1(this, "components", _descriptor2, this);
+        _initializerDefineProperty2(this, "components", _descriptor5, this);
         this.evt = new ComponentBuilder(this);
         this.components = [];
     }
@@ -833,22 +945,81 @@ let TextEditor = _class1 = _dec4(((_class1 = class TextEditor1 extends h2 {
         this.requestUpdate();
     }
     render() {
-        return T`\n            <div @dblclick=${this.focusEdtior} @click=${this.focusEdtior} @contextmenu=${this.focusEdtior}>${this.components}</div>\n        `;
+        return T`\n            <div @dblclick=${this.focusEdtior} @click=${this.focusEdtior}>${this.components}</div>\n        `;
     }
-}) || _class1, _dec3 = r3(), _descriptor2 = _applyDecoratedDescriptor1(_class1.prototype, "components", [
-    _dec3
+}) || _class2, _dec7 = r3(), _descriptor5 = _applyDecoratedDescriptor2(_class2.prototype, "components", [
+    _dec7
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: void 0
-}), _class1)) || _class1;
-var _class2;
-var _dec5 = n4('editor-main');
-let EditorMain2 = _class2 = _dec5((_class2 = class EditorMain1 extends h2 {
-    static styles = i1`div { width : 100%; height : 100%; }`;
-    render() {
-        return T`<div><text-editor></text-editor></div>`;
+}), _class2)) || _class2;
+function _applyDecoratedDescriptor3(target1, property, decorators, descriptor, context) {
+    var desc = {
+    };
+    Object.keys(descriptor).forEach(function(key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+    if ("value" in desc || desc.initializer) {
+        desc.writable = true;
     }
-}) || _class2) || _class2;
+    desc = decorators.slice().reverse().reduce(function(desc, decorator) {
+        return decorator(target1, property, desc) || desc;
+    }, desc);
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+    if (desc.initializer === void 0) {
+        Object.defineProperty(target1, property, desc);
+        desc = null;
+    }
+    return desc;
+}
+function _initializerDefineProperty3(target1, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target1, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+var _class3, _descriptor6, _dec9;
+var _dec10 = n4('editor-main');
+let EditorMain2 = _class3 = _dec10(((_class3 = class EditorMain1 extends h2 {
+    static styles = i1`div { width : 100%; height : 100%; }`;
+    menu;
+    constructor(){
+        super();
+        _initializerDefineProperty3(this, "support", _descriptor6, this);
+        this.support = new ContextMenuSupport;
+    }
+    contextHandler(evt) {
+        evt.preventDefault();
+        if (this.support.findContextMenuType(evt.path)) {
+            this.menu = this.support.getContextMenu(evt.pageX, evt.pageY);
+            this.requestUpdate();
+        }
+    }
+    clickHandler() {
+        if (this.menu !== undefined) {
+            delete this.menu;
+            this.requestUpdate();
+        }
+    }
+    render() {
+        return T`<text-editor @contextmenu=${this.contextHandler} @click=${this.clickHandler}></text-editor>${this.menu}`;
+    }
+}) || _class3, _dec9 = e4(), _descriptor6 = _applyDecoratedDescriptor3(_class3.prototype, "support", [
+    _dec9
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: void 0
+}), _class3)) || _class3;
 export { EditorMain2 as EditorMain };

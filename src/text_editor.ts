@@ -37,7 +37,7 @@ export class TextEditor extends LitElement {
 
     render(): any {
         return html`
-            <div @dblclick=${this.focusEdtior} @click=${this.focusEdtior} @contextmenu=${this.focusEdtior}>${this.components}</div>
+            <div @dblclick=${this.focusEdtior} @click=${this.focusEdtior}>${this.components}</div>
         `;
     }
 

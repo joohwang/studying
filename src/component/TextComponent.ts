@@ -3,6 +3,7 @@ import { customElement, property } from 'https://cdn.skypack.dev/lit/decorators'
 import { styleMap } from 'https://cdn.skypack.dev/lit/directives/style-map'
 
 import Component from './Component.ts';
+import { TextContext } from './support/index.js';
 
 @customElement("text-component")
 export default class TextComponent extends LitElement implements Component {
@@ -19,15 +20,17 @@ export default class TextComponent extends LitElement implements Component {
     @property({ type: String })
     fontColor: string;
 
+    @property({ type: TextContext })
+    menu: TextContext;
+
     constructor() {
         super();
         this.fontSize = 30;
         this.fontColor = "";
 
     }
-
-    contextMenu(): void {
-        throw new Error("Method not implemented.");
+    contextMenu(): any {
+        return TextContext;
     }
 
     isSupport(): boolean {
@@ -50,6 +53,7 @@ export default class TextComponent extends LitElement implements Component {
     render(): any {
 
         return html`
+            ${this.menu}
             <div contenteditable="true" class="text_editor" style="${styleMap(this.styles())}" ></div>
         `;
     }

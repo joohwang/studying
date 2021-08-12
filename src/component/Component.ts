@@ -1,6 +1,8 @@
+import ContextMenu from './support/ContextMenu.ts'
+
 export default interface Component {
 
-    contextMenu(): void;
+    contextMenu(): ContextMenu;
     isSupport(): boolean;
 
 }

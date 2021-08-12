@@ -1,6 +1,4 @@
-import { LitElement } from "https://cdn.skypack.dev/lit";
 import { Component, TextComponent } from '../component/index.js';
-
 
 export default class ComponentBuilder {
 
@@ -21,10 +19,6 @@ export default class ComponentBuilder {
     getComponent(evt: any): Component | undefined {
 
         if (this.hasComponent(evt)) {
-            if (evt.type === "contextmenu") {
-                evt.preventDefault();
-                let _c: LitElement = this.target.component.find((c: LitElement) => c.isEqualNode(evt.path[0]));
-            }
             evt.path[0].focus();
         } else {
             return new TextComponent;
