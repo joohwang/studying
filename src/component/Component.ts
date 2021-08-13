@@ -1,8 +1,11 @@
-import ContextMenu from './support/ContextMenu.ts'
+import { AbstractContextMenu } from './support/ContextMenu.ts'
 
 export default interface Component {
 
-    contextMenu(): ContextMenu;
+    contextMenu(): AbstractContextMenu;
+    contextMenuData(): Record<string, unknown>;
+    contextDataChage(_d: Record<string, unknown>): void;
+
     isSupport(): boolean;
 
 }

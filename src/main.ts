@@ -3,7 +3,7 @@ import { customElement, property } from 'https://cdn.skypack.dev/lit/decorators'
 
 import './text_editor.ts';
 
-import { ContextMenuSupport, ContextMenu } from './component/support/index.js';
+import { ContextMenuSupport, AbstractContextMenu } from './component/support/index.js';
 
 @customElement('editor-main')
 export class EditorMain extends LitElement {
@@ -14,7 +14,7 @@ export class EditorMain extends LitElement {
     @property()
     support: ContextMenuSupport;
 
-    menu: ContextMenu;
+    menu: AbstractContextMenu;
 
     constructor() {
         super();

@@ -1,37 +1,55 @@
-import ContextMenu from './ContextMenu.ts';
+import { AbstractContextMenu } from './ContextMenu.ts';
 import ContextMenuBuilder from './ContextMenuBuilder.ts';
 
+
 interface Properties {
-    FUNCTION_NAME: string;
-    contextMenu: new () => ContextMenu;
-    builder: ContextMenuBuilder<ContextMenu>;
+    FUNCTION_NAME_TYPE: string;
+    FUNCTION_NAME_DATA: string;
+    FUNCTION_NAME_CHANGE: string;
+    contextMenu: AbstractContextMenu;
+    builder: ContextMenuBuilder<AbstractContextMenu>;
 }
 
 export default class ContextMenuSupport implements Properties {
 
-    FUNCTION_NAME: string;
+    FUNCTION_NAME_TYPE: string;
 
-    contextMenu: new () => ContextMenu;
+    FUNCTION_NAME_DATA: string;
 
-    builder: ContextMenuBuilder<ContextMenu>;
+    FUNCTION_NAME_CHANGE: string;
+
+    contextMenu: AbstractContextMenu;
+
+    builder: ContextMenuBuilder<AbstractContextMenu>;
+
+    _target: any;
 
     constructor() {
-        this.FUNCTION_NAME = "contextMenu";
+        this.FUNCTION_NAME_TYPE = "contextMenu";
+        this.FUNCTION_NAME_DATA = "contextMenuData";
+        this.FUNCTION_NAME_CHANGE = "contextDataChage";
     }
 
     findContextMenuType(paths: HTMLElement[]): boolean {
-        let _c: any = paths.find((e: any) => typeof e[this.FUNCTION_NAME] == 'function');
+        const _c: any = paths.find((e: any) => e.constructor.name.indexOf("Component") != -1);
 
         if (_c === undefined) return false;
 
-        this.contextMenu = _c[this.FUNCTION_NAME].call(_c);
-        this.builder = new ContextMenuBuilder(this.contextMenu);
+        const _contextMenu = _c[this.FUNCTION_NAME_TYPE].call(_c);
+        const _data: Record<string, unknown> = _c[this.FUNCTION_NAME_DATA].call(_c);
+        this.builder = new ContextMenuBuilder(_contextMenu, _data);
+
+        this._target = _c;
 
         return true;
     }
 
-    getContextMenu(x: number, y: number): ContextMenu {
-        return this.builder.setX(x).setY(y).build();
+    changeData(_d: any) {
+        this._target[this.FUNCTION_NAME_CHANGE].call(this._target, _d);
+    }
+
+    getContextMenu(x: number, y: number): AbstractContextMenu {
+        return this.contextMenu = this.builder.setX(x).setY(y).build(this.changeData.bind(this));
     }
 
 
