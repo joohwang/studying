@@ -46,6 +46,7 @@ export default class TextContextMenu extends AbstractContextMenu {
                 <span>Font Size</span><input @change=${this.menuDataChange} type=number name=fontSize value=${this.fontSize} />
                 <span>Font Color</span><input @change=${this.menuDataChange} name=fontColor value=${this.fontColor} />
             </div>
+            ${this.contextBackground()}
         `;
     }
 

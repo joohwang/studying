@@ -1,8 +1,8 @@
-import { LitElement } from 'https://cdn.skypack.dev/lit';
+import { LitElement, html } from 'https://cdn.skypack.dev/lit';
 
 abstract class AbstractContextMenu extends LitElement {
 
-    notify: any;
+    notify: any[] = [];
 
     constructor() {
         super();
@@ -17,10 +17,6 @@ abstract class AbstractContextMenu extends LitElement {
         }
     }
 
-    setNotify(notify: any) {
-        this.notify = notify;
-    }
-
     menuDataChange(evt: Event) {
         if (evt.currentTarget instanceof HTMLInputElement) {
 
@@ -33,8 +29,16 @@ abstract class AbstractContextMenu extends LitElement {
                 obj[target.name] = target.valueAsNumber;
             }
 
-            this.notify(obj);
+            this.dispatchEvent(new CustomEvent('contextdatachange', { detail: obj, bubbles: true, composed: true }))
         }
+    }
+
+    bgClick(evt: Event) {
+        this.dispatchEvent(new CustomEvent('cxtremove', { detail: evt.currentTarget, bubbles: true, composed: true }));
+    }
+
+    contextBackground() {
+        return html`<div @click=${this.bgClick} class="context_bg" style="top : 0; left: 0; position: absolute; z-index : 8888; width : ${window.screen.availWidth}px; height : ${window.screen.availHeight}px;"></div>`;
     }
 
     abstract setPosition(x: number, y: number): void;

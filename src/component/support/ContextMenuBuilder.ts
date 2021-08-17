@@ -22,11 +22,10 @@ export default class ContextMenuBuilder<T extends AbstractContextMenu> {
         return this;
     }
 
-    build(notify: any): T {
+    build(): T {
         let _m: T = new this.menu;
         _m.setPosition(this._x, this._y);
         _m.setMenuData(this._d);
-        _m.setNotify(notify);
         return _m;
 
     }

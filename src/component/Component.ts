@@ -4,7 +4,7 @@ export default interface Component {
 
     contextMenu(): AbstractContextMenu;
     contextMenuData(): Record<string, unknown>;
-    contextDataChage(_d: Record<string, unknown>): void;
+    contextDataChage(evt: CustomEvent): void;
 
     isSupport(): boolean;
 

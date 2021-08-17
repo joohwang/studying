@@ -12,42 +12,41 @@ export default class TextComponent extends LitElement implements Component {
     static styles = css`.text_editor {
         outline : none;
         caret-color : black;
+    }
+    ::selection  {
+        color : white;
+        background-color : #a0a0a0;
     }`;
 
 
-    @property({ type: Number, reflect: true })
+    @property({ type: Number })
     fontSize: number;
 
     @property({ type: String })
     fontColor: string;
 
-    @property()
-    data: Record<string, unknown>
-
     constructor() {
         super();
         this.fontSize = 30;
         this.fontColor = "black";
-        this.data = {
-            "fontSize": this.fontSize,
-            "fontColor": this.fontColor
-        }
-
     }
 
-    contextDataChage(_d: Record<string, unknown>) {
-        for (const key in _d) {
+    contextDataChage(evt: CustomEvent) {
+        for (const key in evt) {
             const descriptor = Object.getOwnPropertyDescriptor(this, key) || {}
             if (descriptor.writable) {
                 //@ts-expect-error
-                this[key] = _d[key];
+                this[key] = evt[key];
             }
         }
         this.requestUpdate();
     }
 
     contextMenuData(): Record<string, unknown> {
-        return this.data;
+        return {
+            "fontSize": this.fontSize,
+            "fontColor": this.fontColor
+        };
     }
 
     contextMenu(): any {
@@ -74,7 +73,7 @@ export default class TextComponent extends LitElement implements Component {
     render(): any {
 
         return html`
-            <div contenteditable="true" class="text_editor" style="${styleMap(this.styles())}" ></div>
+            <div @selectionchange=${(evt: Event) => console.log(evt)} @contextdatachange=${this.contextDataChage} contenteditable="true" class="text_editor" style="${styleMap(this.styles())}" ></div>
         `;
     }
 }

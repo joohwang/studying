@@ -49,7 +49,7 @@ export default class ContextMenuSupport implements Properties {
     }
 
     getContextMenu(x: number, y: number): AbstractContextMenu {
-        return this.contextMenu = this.builder.setX(x).setY(y).build(this.changeData.bind(this));
+        return this.contextMenu = this.builder.setX(x).setY(y).build();
     }
 
 

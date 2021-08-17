@@ -29,7 +29,7 @@ export class EditorMain extends LitElement {
         }
     }
 
-    clickHandler() {
+    contextRemove(evt: CustomEvent) {
         if (this.menu !== undefined) {
             delete this.menu;
             this.requestUpdate();
@@ -37,6 +37,6 @@ export class EditorMain extends LitElement {
     }
 
     render(): any {
-        return html`<text-editor @contextmenu=${this.contextHandler} @click=${this.clickHandler}></text-editor>${this.menu}`;
+        return html`<text-editor @contextmenu=${this.contextHandler}  @cxtremove=${this.contextRemove}></text-editor>${this.menu}`;
     }
 }
