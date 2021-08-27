@@ -1,4 +1,4 @@
-import { html, Part } from "lit";
+import { html, noChange, Part } from "lit";
 import { Directive, directive } from "lit/directive.js";
 import { TextContext } from "./context/TextContext";
 
@@ -11,7 +11,10 @@ export class ComponentContextDirective extends Directive {
     const evt: MouseEvent = props.find(
       (e) => e instanceof MouseEvent
     ) as MouseEvent;
-    const paths = evt.composedPath();
+
+    const paths = evt?.composedPath();
+    if (paths.length === 0) return noChange;
+
     const target: HTMLElement = paths[0] as HTMLElement;
 
     const context = directive(TextContext.bind(TextContext, target));

@@ -11,9 +11,21 @@ export class TextContext extends Directive {
     const styles: CSSStyleDeclaration = getComputedStyle(element);
     this.fontSize = parseInt(styles.getPropertyValue("font-size"));
     this.color = styles.getPropertyValue("color");
+    element.addEventListener(
+      "contextchange",
+      (evt) => console.log("fwefwe", evt),
+      false
+    );
   }
 
   change(evt) {
+    dispatchEvent(
+      new CustomEvent("contextchange", {
+        bubbles: true,
+        composed: true,
+        detail: { "font-Size": evt.currentTarget.value },
+      })
+    );
     console.log(evt);
   }
 

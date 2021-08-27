@@ -1,15 +1,10 @@
-import { html, css } from "lit";
+import { html, css, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { directive } from "lit/directive.js";
-import { repeat } from "lit/directives/repeat.js";
-import { ComponentContextDirective } from "./component/ComponentContextDirective";
-import { TextComponent } from "./component/TextComponent";
-import { Subscriber } from "./component/Subscriber";
-import { v4 } from "uuid";
-import { EventHandler } from "./component/EventHandler";
+import { StyleInfo, styleMap } from "lit/directives/style-map.js";
+import { EditorElement } from "./component/EditorElement";
 
 @customElement("editor-main")
-export class EditorMain extends Subscriber {
+export class EditorMain extends LitElement {
   static styles = css`
     div {
       margin: 0;
@@ -24,10 +19,6 @@ export class EditorMain extends Subscriber {
       align-items: center;
       font-size: 30px;
       color: black;
-    }
-    .component {
-      outline: none;
-      width: 90%;
     }
     .ed_compon_tool_bar {
       position: absolute;
@@ -47,110 +38,73 @@ export class EditorMain extends Subscriber {
   @query(".ed_container")
   _container: HTMLDivElement;
 
-  @query(".ed_compon_tool_bar")
-  _componentMenu: HTMLDivElement;
-
-  @query(".ed_compon_tool_button")
-  _button: HTMLDivElement;
+  @property()
+  _menuStyle: StyleInfo = {};
 
   @property()
-  componentDirective: any[];
+  _buttonStyle: StyleInfo = {};
 
   @property()
-  context;
-
-  eventHandler: EventHandler;
+  elements: EditorElement[];
 
   constructor() {
     super();
-    this.componentDirective = [];
-    this.eventHandler = new EventHandler();
-  }
-
-  subscribe(param: Map<EventTarget, unknown>) {
-    this.componentDirective = this.componentDirective.map((e, i) => {
-      let val;
-      return i ===
-        [...this.shadowRoot.querySelectorAll(".component")].findIndex(
-          (e) => param.has(e) && (val = param.get(e))
-        )
-        ? ((e._d = e._d.bind(e._d, val)), e)
-        : e;
-    });
+    this.elements = [];
+    this.addEventListener("showtoolbar", this.setComponentToolbarStyle, false);
   }
 
   clickHandler(evt: Event) {
-    if (this.context !== undefined) this.context = undefined;
-    const component = directive(
-      TextComponent.bind(undefined, this.eventHandler)
-    );
-
     const targets = evt.composedPath();
     if (this._container.isEqualNode(targets[0] as Node)) {
-      const _v4 = v4();
-      const _c = { _i: _v4, _d: component };
-      this.componentDirective = [...this.componentDirective, _c];
+      const temp = [new EditorElement()];
+      this.elements = [...this.elements, ...temp];
     }
   }
 
   updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("componentDirective")) {
+    if (changedProperties.has("elements")) {
       const div: Element = this.shadowRoot.querySelector(
-        ".ed_container div.component:last-child"
+        "editor-element:last-child"
       );
       if (div !== undefined && div !== null) {
-        this.setComponentToolbarStyle(div as HTMLElement);
-        super.onSubscribe(div, this.eventHandler);
+        //this.setComponentToolbarStyle(div as HTMLElement);
       }
+    } else {
+      console.log(changedProperties);
     }
   }
 
-  setComponentToolbarStyle(_d: HTMLElement) {
+  setComponentToolbarStyle(evt: CustomEvent) {
     const rect = this._container.getBoundingClientRect(),
-      dRect = _d.getBoundingClientRect();
+      dRect = evt.detail.getBoundingClientRect();
+
     let width: string;
 
-    this._componentMenu.style.display = "flex";
-    this._componentMenu.style.justifyContent = "center";
-    this._componentMenu.style.alignItems = "center";
-    this._componentMenu.style.left = `${rect.left}px`;
-    this._componentMenu.style.top = `${dRect.top}px`;
-    this._componentMenu.style.width = width = `${
-      (rect.width - dRect.width) * 0.5
-    }px`;
-    this._componentMenu.style.height = `${dRect.height}px`;
+    this._menuStyle = {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      left: `${rect.left}px`,
+      top: `${dRect.top}px`,
+      width: (width = `${(rect.width - dRect.width) * 0.5}px`),
+      height: `${dRect.height}px`,
+    };
 
-    this._button.style.height = this._button.style.width = `${
-      parseInt(width) * 0.8
-    }px`;
-  }
-
-  contextMenuHandler(evt: Event) {
-    evt.preventDefault();
-    this.context = (directive(ComponentContextDirective) as Function).bind(
-      this,
-      evt
-    );
+    this._buttonStyle = {
+      height: `${parseInt(width) * 0.8}px`,
+      width: `${parseInt(width) * 0.8}px`,
+    };
   }
 
   render() {
-    return html`<div
-        class="ed_container"
-        @contextmenu=${this.contextMenuHandler}
-        @click=${this.clickHandler}
-      >
-        <div class="ed_compon_tool_bar">
-          <div class="ed_compon_tool_button"></div>
-        </div>
-        ${repeat(
-          this.componentDirective,
-          (_d) => {
-            console.log(_d._i);
-            _d._i;
-          },
-          (_d: any, _i: number) => _d._d()
-        )}
+    return html`<div class="ed_container" @click=${this.clickHandler}>
+      <div class="ed_compon_tool_bar" style=${styleMap(this._menuStyle)}>
+        <div
+          class="ed_compon_tool_button"
+          style=${styleMap(this._buttonStyle)}
+        ></div>
       </div>
-      ${(typeof this.context == "function" && this.context()) || ``}`;
+      ${this.elements}
+    </div>`;
   }
 }
