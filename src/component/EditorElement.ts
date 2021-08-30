@@ -2,12 +2,25 @@ import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { classMap } from "lit/directives/class-map.js";
-import { Editors, TextEditor } from "./EditorType";
+import { Editors, ImageEditor, ListEditor, TextEditor } from "./EditorType";
 import _ from "underscore";
 
 @customElement("editor-element")
 export class EditorElement extends LitElement {
-  @property({ hasChanged: (val, oVal) => true })
+  static styles = css`
+    .component.img {
+      border: 1px solid black;
+      height: 50px;
+      border-radius: 15px;
+    }
+    .component.text div {
+      outline: none;
+    }
+  `;
+
+  @property({
+    hasChanged: (val, oVal) => val !== undefined && oVal !== undefined,
+  })
   classes: Record<string, boolean>;
 
   @property()
@@ -32,11 +45,30 @@ export class EditorElement extends LitElement {
   }
 
   firstUpdated() {
+    this.setToolbarPosition();
+  }
+
+  updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("classes")) {
+      Promise.resolve(
+        this.dispatchEvent(
+          new CustomEvent("showtoolbar", { bubbles: true, composed: true })
+        )
+      )
+        .then((e) => super.getUpdateComplete())
+        .then((e) => {
+          if (this.classes.img) this.editor = new Editors(ImageEditor);
+          if (this.classes.list) this.editor = new Editors(ListEditor);
+        });
+    }
+  }
+
+  setToolbarPosition() {
     const element: HTMLElement = this.shadowRoot.querySelector("div.component");
     Promise.resolve(
       element.dispatchEvent(
         new CustomEvent("showtoolbar", {
-          detail: element,
+          detail: { element: element, litClaz: this },
           bubbles: true,
           composed: true,
         })
@@ -65,6 +97,7 @@ export class EditorElement extends LitElement {
 
   render() {
     return html`<div
+      @click=${(evt: Event) => this.setToolbarPosition()}
       class=${classMap(this.classes)}
       style=${styleMap({
         fontSize: `${(this.fontSize && `${this.fontSize}px`) || `inherit`}`,
@@ -76,33 +109,5 @@ export class EditorElement extends LitElement {
     >
       ${this.editor.render()}
     </div>`;
-
-    /* 
-    return this.image === undefined
-      ? html`<div
-          @drop=${this.dropHandler}
-          @dragover=${(evt: Event) => evt.preventDefault()}
-          @contextmenu=${(evt) => evt.preventDefault()}
-          @focus=${(evt: Event) =>
-            this.dispatchEvent(
-              new CustomEvent("showtoolbar", {
-                detail: evt.currentTarget,
-                bubbles: true,
-                composed: true,
-              })
-            )}
-          @input=${(evt) => !this.ed_text && (this.ed_text = true)}
-          class="${classMap(classes)}"
-          style=${styleMap({
-            fontSize: `${(this.fontSize && `${this.fontSize}px`) || `inherit`}`,
-            color: this.fontColor,
-            width: `${Math.trunc(
-              this.parentElement.getBoundingClientRect().width * 0.9
-            )}px`,
-          })}
-          contenteditable="true"
-        ></div>`
-      : html`<div><img src=${this.image} /></div>`;
-      */
   }
 }

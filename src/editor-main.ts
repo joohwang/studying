@@ -1,7 +1,8 @@
 import { html, css, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { StyleInfo, styleMap } from "lit/directives/style-map.js";
+import { directive } from "lit/directive.js";
 import { EditorElement } from "./component/EditorElement";
+import { Toolbar } from "./component/Toolbar";
 
 @customElement("editor-main")
 export class EditorMain extends LitElement {
@@ -22,16 +23,30 @@ export class EditorMain extends LitElement {
     }
     .ed_compon_tool_bar {
       position: absolute;
-      display: none;
     }
     .ed_compon_tool_button {
       background-color: #8fcdff80;
       border-radius: 50%;
     }
+    .ed_compon_tool_bar .bar {
+      margin-left: 10px;
+      position: relative;
+      flext-direction: row;
+      display: flex;
+      align-items: center;
+    }
     .text_context {
       width: 500px;
       height: 300px;
       background-color: white;
+    }
+    .ed_compon_tool_bar .bar div,
+    img {
+      visibility: hidden;
+    }
+    img {
+      width: 20px;
+      height: 20px;
     }
   `;
 
@@ -39,18 +54,21 @@ export class EditorMain extends LitElement {
   _container: HTMLDivElement;
 
   @property()
-  _menuStyle: StyleInfo = {};
-
-  @property()
-  _buttonStyle: StyleInfo = {};
+  editorRect;
 
   @property()
   elements: EditorElement[];
+
+  toolbar;
+
+  @property()
+  toolbarRoot;
 
   constructor() {
     super();
     this.elements = [];
     this.addEventListener("showtoolbar", this.setComponentToolbarStyle, false);
+    this.toolbar = directive(Toolbar);
   }
 
   clickHandler(evt: Event) {
@@ -75,35 +93,17 @@ export class EditorMain extends LitElement {
   }
 
   setComponentToolbarStyle(evt: CustomEvent) {
-    const rect = this._container.getBoundingClientRect(),
-      dRect = evt.detail.getBoundingClientRect();
-
-    let width: string;
-
-    this._menuStyle = {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      left: `${rect.left}px`,
-      top: `${dRect.top}px`,
-      width: (width = `${(rect.width - dRect.width) * 0.5}px`),
-      height: `${dRect.height}px`,
-    };
-
-    this._buttonStyle = {
-      height: `${parseInt(width) * 0.8}px`,
-      width: `${parseInt(width) * 0.8}px`,
-    };
+    this.editorRect = evt.detail?.element?.getBoundingClientRect();
+    this.toolbarRoot = evt.detail?.litClaz;
   }
 
   render() {
     return html`<div class="ed_container" @click=${this.clickHandler}>
-      <div class="ed_compon_tool_bar" style=${styleMap(this._menuStyle)}>
-        <div
-          class="ed_compon_tool_button"
-          style=${styleMap(this._buttonStyle)}
-        ></div>
-      </div>
+      ${this.toolbar({
+        _c: this._container?.getBoundingClientRect(),
+        _e: this.editorRect,
+        _t: this.toolbarRoot,
+      })}
       ${this.elements}
     </div>`;
   }

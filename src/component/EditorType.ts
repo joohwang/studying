@@ -27,7 +27,7 @@ class ImageEditor implements Editor {
 
   constructor() {}
   render() {
-    throw new Error("Method not implemented.");
+    return html`<div></div>`;
   }
   setProperties(props: any) {
     throw new Error("Method not implemented.");
@@ -45,18 +45,12 @@ class ListEditor implements Editor {
 }
 
 class TextEditor implements Editor {
-  static styles = css`
-    .text_editor {
-      outline: none;
-    }
-  `;
-
   size: number;
   color: string;
   constructor() {}
 
   inputhandler(evt: Event) {
-    this["classes"] = _.extend(this["classes"], { text_editor: true });
+    this["classes"] = _.extend(this["classes"], { text: true });
   }
 
   render() {
