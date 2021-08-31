@@ -35,11 +35,6 @@ export class EditorMain extends LitElement {
       display: flex;
       align-items: center;
     }
-    .text_context {
-      width: 500px;
-      height: 300px;
-      background-color: white;
-    }
     .ed_compon_tool_bar .bar div,
     img {
       visibility: hidden;

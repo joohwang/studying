@@ -4,17 +4,27 @@ import { styleMap } from "lit/directives/style-map.js";
 import { classMap } from "lit/directives/class-map.js";
 import { Editors, ImageEditor, ListEditor, TextEditor } from "./EditorType";
 import _ from "underscore";
+import { Subject } from "rxjs";
 
 @customElement("editor-element")
 export class EditorElement extends LitElement {
   static styles = css`
-    .component.img {
-      border: 1px solid black;
+    .component {
+      margin: 5px 0px;
+    }
+    .component.img div {
+      border: 1px outset;
       height: 50px;
       border-radius: 15px;
+      background-color: #ffffff6b;
+      color: #808080;
+      text-align: center;
     }
     .component.text div {
       outline: none;
+    }
+    .image_area {
+      height: 100% !important;
     }
   `;
 
@@ -23,29 +33,31 @@ export class EditorElement extends LitElement {
   })
   classes: Record<string, boolean>;
 
-  @property()
-  fontSize;
+  subject;
 
   @property()
-  fontColor;
+  childChange: number;
 
-  @property()
-  image;
-
-  @property()
+  @property({ hasChanged: (val, oVal) => (console.log(val, oVal), true) })
   editor;
 
   constructor() {
     super();
-    this.editor = new Editors(TextEditor);
+    this.subject = new Subject();
+    this.editor = new Editors(TextEditor, this.subject);
     this.classes = {
       component: true,
     };
+    this.childChange = 0;
     this.editor.setProperties({ size: 30, color: "black" });
   }
 
   firstUpdated() {
     this.setToolbarPosition();
+    this.subject.subscribe({
+      next: (value) => this.childChange++,
+      complete: () => console.log("subject complete"),
+    });
   }
 
   updated(changedProperties: Map<string, unknown>) {
@@ -57,8 +69,10 @@ export class EditorElement extends LitElement {
       )
         .then((e) => super.getUpdateComplete())
         .then((e) => {
-          if (this.classes.img) this.editor = new Editors(ImageEditor);
-          if (this.classes.list) this.editor = new Editors(ListEditor);
+          if (this.classes.img)
+            this.editor = new Editors(ImageEditor, this.subject);
+          if (this.classes.list)
+            this.editor = new Editors(ListEditor, this.subject);
         });
     }
   }
@@ -78,30 +92,11 @@ export class EditorElement extends LitElement {
       .then((e) => element.querySelector("div").focus());
   }
 
-  dropHandler(evt: DragEvent) {
-    evt.preventDefault();
-    if (evt.dataTransfer.items) {
-      const render = new FileReader();
-      render.onload = (evt) => {
-        this.image = evt.target.result;
-      };
-
-      for (let i = 0; i < evt.dataTransfer.items.length; i++) {
-        const item = evt.dataTransfer.items[i];
-        if (item.kind == "file") {
-          render.readAsDataURL(item.getAsFile());
-        }
-      }
-    }
-  }
-
   render() {
     return html`<div
       @click=${(evt: Event) => this.setToolbarPosition()}
       class=${classMap(this.classes)}
       style=${styleMap({
-        fontSize: `${(this.fontSize && `${this.fontSize}px`) || `inherit`}`,
-        color: this.fontColor,
         width: `${Math.trunc(
           this.parentElement.getBoundingClientRect().width * 0.9
         )}px`,
