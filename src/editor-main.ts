@@ -13,7 +13,7 @@ export class EditorMain extends LitElement {
     .ed_container {
       min-width: 50%;
       max-width: 80%;
-      height: ${screen.availHeight * 0.8}px;
+      padding-bottom: 70px;
       background-color: #e3e3e36b;
       display: flex;
       flex-direction: column;

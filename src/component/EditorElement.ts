@@ -11,10 +11,10 @@ export class EditorElement extends LitElement {
   static styles = css`
     .component {
       margin: 5px 0px;
+      height: auto;
     }
-    .component.img div {
+    .component.img .img_drop {
       border: 1px outset;
-      height: 50px;
       border-radius: 15px;
       background-color: #ffffff6b;
       color: #808080;
@@ -23,8 +23,29 @@ export class EditorElement extends LitElement {
     .component.text div {
       outline: none;
     }
-    .image_area {
-      height: 100% !important;
+    .img_container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .img_container_slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      transition-property: transform;
+      box-sizing: content-box;
+    }
+    .img_slide {
+      background-color: #ffffff8f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition-property: transform;
     }
   `;
 
@@ -33,17 +54,17 @@ export class EditorElement extends LitElement {
   })
   classes: Record<string, boolean>;
 
-  subject;
+  subject: Subject<unknown>;
 
   @property()
   childChange: number;
 
   @property({ hasChanged: (val, oVal) => (console.log(val, oVal), true) })
-  editor;
+  editor: Editors;
 
   constructor() {
     super();
-    this.subject = new Subject();
+    this.reactive();
     this.editor = new Editors(TextEditor, this.subject);
     this.classes = {
       component: true,
@@ -52,12 +73,16 @@ export class EditorElement extends LitElement {
     this.editor.setProperties({ size: 30, color: "black" });
   }
 
-  firstUpdated() {
-    this.setToolbarPosition();
+  reactive() {
+    this.subject = new Subject();
     this.subject.subscribe({
-      next: (value) => this.childChange++,
+      next: (value) => (console.log(value), this.childChange++),
       complete: () => console.log("subject complete"),
     });
+  }
+
+  firstUpdated() {
+    this.setToolbarPosition();
   }
 
   updated(changedProperties: Map<string, unknown>) {
@@ -93,16 +118,18 @@ export class EditorElement extends LitElement {
   }
 
   render() {
+    const width = Math.trunc(
+      this.parentElement.getBoundingClientRect().width * 0.9
+    );
+
     return html`<div
       @click=${(evt: Event) => this.setToolbarPosition()}
       class=${classMap(this.classes)}
       style=${styleMap({
-        width: `${Math.trunc(
-          this.parentElement.getBoundingClientRect().width * 0.9
-        )}px`,
+        width: `${width}px`,
       })}
     >
-      ${this.editor.render()}
+      ${this.editor.render({ width: width })}
     </div>`;
   }
 }
