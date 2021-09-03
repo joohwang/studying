@@ -1,6 +1,4 @@
-import { html, LitElement } from "lit";
-import { directive } from "lit-html/directive";
-import { of, Subject, isObservable, from } from "rxjs";
+import { Subject } from "rxjs";
 import { __extends } from "tslib";
 import _ from "underscore";
 import { ImageEditor, TextEditor, Editor } from "./editors";

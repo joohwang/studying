@@ -47,6 +47,22 @@ export class EditorElement extends LitElement {
       position: relative;
       transition-property: transform;
     }
+    .img_pagination {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+    .img_pagination_bullet {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background-color: #8686f8;
+      margin: 0px 2px;
+    }
+    .swiper-pagination-bullet-active {
+      background-color: #5ed8e8;
+    }
   `;
 
   @property({
@@ -86,6 +102,7 @@ export class EditorElement extends LitElement {
   }
 
   updated(changedProperties: Map<string, unknown>) {
+    console.log(changedProperties);
     if (changedProperties.has("classes")) {
       Promise.resolve(
         this.dispatchEvent(

@@ -39,7 +39,7 @@ export class Toolbar extends Directive {
     bar.animate(
       [
         { transform: "translateX(0)", opacity: 0 },
-        { transform: "translateX(10px)", opacity: 1 },
+        { transform: "translateX(10px)", opacity: 1, visibility: "visible" },
       ],
       {
         duration: 1000,
@@ -101,15 +101,19 @@ export class Toolbar extends Directive {
     let tWdith = 0,
       tHeight = 0;
 
+    const absolueYPointer =
+      containerRect.top < 0
+        ? window.pageYOffset + componentRect?.top
+        : componentRect?.top;
+
     this._menuStyle = {
       display: "flex",
       justifyContent: "flex-start",
       alignItems: "center",
       left: `${containerRect?.left}px`,
-      top: `${componentRect?.top}px`,
+      transform: `translate3d(0px, ${containerRect.top}px, 0px)`,
       width: `${(tWdith +=
         (containerRect?.width - componentRect?.width) * 2)}px`,
-      height: `${componentRect?.height}px`,
     };
 
     let width: string = `${
@@ -120,6 +124,7 @@ export class Toolbar extends Directive {
       height: `${(tHeight += parseInt(width) * 0.8)}px`,
       width: `${parseInt(width) * 0.8}px`,
       cursor: "pointer",
+      transform: `translate3d(0px, ${-Math.abs(absolueYPointer) + 5}px, 0px)`,
       boxShadow: "2px 1px 5px 0px",
     };
 
@@ -129,6 +134,7 @@ export class Toolbar extends Directive {
     };
 
     this._toolbarIcon = {
+      transform: `translate3d(0px, ${-Math.abs(absolueYPointer) + 5}px, 0px)`,
       visibility: "hidden",
       position: "relative",
       marginRight: "5px",

@@ -1,5 +1,5 @@
 import { html, css } from "lit";
-import { Directive, directive, DirectiveClass } from "lit/directive";
+import { Directive, directive, DirectiveClass } from "lit/directive.js";
 import { styleMap } from "lit/directives/style-map";
 import { Observable } from "rxjs";
 import { Editor } from "./Editor";
@@ -43,7 +43,7 @@ export class ImageEditor extends Editor {
         )
         .then((_i) =>
           (function (images) {
-            return new Observable((subscribe) => subscribe.next(images));
+            return new Observable((subscribe) => subscribe.next(images)).pipe();
           })(_i)
             .subscribe(this.observer)
             .unsubscribe()
@@ -82,12 +82,18 @@ export class ImageEditor extends Editor {
   }
 
   imageRender() {
-    const slider = new ImageSlider({
-      width: this.parentProperty.width,
-      images: this.images,
+    const slider = directive(
+      ImageSlider.bind(undefined, {
+        width: this.parentProperty.width,
+        images: this.images,
+      })
+    );
+
+    this.observer.subscribe({
+      next: (v) => console.log(v),
     });
 
-    return slider.render();
+    return slider();
   }
 
   render() {
