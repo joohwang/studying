@@ -1,27 +1,10 @@
 import { Subject } from "rxjs";
 import { __extends } from "tslib";
 import _ from "underscore";
-import { ImageEditor, TextEditor, Editor } from "./editors";
+import { ImageEditor, TextEditor, Editor, ListEditor } from "./editors";
 import { ParentProperty } from "./Property";
 
 type EditorType<T extends Editor> = new (...args: any[]) => T;
-
-interface ListProperties {}
-
-class ListEditor extends Editor {
-  getContextMenuProperty() {
-    throw new Error("Method not implemented.");
-  }
-  constructor() {
-    super(arguments);
-  }
-  render() {
-    throw new Error("Method not implemented.");
-  }
-  setProperties(props: any) {
-    throw new Error("Method not implemented.");
-  }
-}
 
 export class Editors {
   private editor: Editor;

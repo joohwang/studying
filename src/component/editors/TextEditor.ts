@@ -14,6 +14,13 @@ export class TextEditor extends Editor {
     super(arguments);
   }
 
+  mouseUpHandler(evt) {
+    console.log(evt);
+    if (typeof window.getSelection == "function") {
+    } else {
+    }
+  }
+
   inputhandler(evt: Event) {
     this["classes"] = _.extend(this["classes"], { text: true });
   }
@@ -23,6 +30,7 @@ export class TextEditor extends Editor {
       @contextmenu=${this.showContextMenu.bind(this)}
       @input=${this.inputhandler}
       contenteditable="true"
+      @mouseup=${this.mouseUpHandler}
     ></div>`;
   }
 

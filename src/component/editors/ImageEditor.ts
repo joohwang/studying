@@ -26,11 +26,14 @@ export class ImageEditor extends Editor {
             yield new Promise(
               (resolve, reject) => (
                 file.kind == "file" &&
+                  file.type.match(/image/g) &&
                   (function (reader) {
                     reader.onload = (evt) => resolve(evt.target.result);
                     reader.readAsDataURL(file.getAsFile());
                   })(new FileReader()),
-                file.kind != "file" && reject("Not File")
+                file.kind == "file" &&
+                  !file.type.match(/image/g) &&
+                  reject("Not File")
               )
             );
         })()

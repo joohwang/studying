@@ -63,6 +63,9 @@ export class EditorElement extends LitElement {
     .swiper-pagination-bullet-active {
       background-color: #5ed8e8;
     }
+    ::selection {
+      background-color: #00ff8942;
+    }
   `;
 
   @property({
