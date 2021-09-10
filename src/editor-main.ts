@@ -2,8 +2,8 @@ import { html, css, LitElement } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { directive } from "lit/directive.js";
 import { EditorElement } from "./component/EditorElement";
-import { Toolbar } from "./component/toolbar/Toolbar";
 import _ from "underscore";
+import { ToolbarDirective } from "./component/toolbar/ToolbarDirective";
 
 @customElement("editor-main")
 export class EditorMain extends LitElement {
@@ -35,6 +35,8 @@ export class EditorMain extends LitElement {
 
   toolbar;
 
+  toolbarsJson;
+
   @property()
   toolbarRoot;
 
@@ -42,7 +44,11 @@ export class EditorMain extends LitElement {
     super();
     this.elements = [];
     this.addEventListener("showtoolbar", this.setComponentToolbarStyle, false);
-    this.toolbar = directive(Toolbar);
+    this.toolbar = directive(ToolbarDirective);
+
+    fetch("/toolbar.json")
+      .then((data) => data.json())
+      .then((v) => _.isArray(v.toolbars) && (this.toolbarsJson = v.toolbars));
   }
 
   clickHandler(evt: Event) {
@@ -84,6 +90,7 @@ export class EditorMain extends LitElement {
         ),
         _e: this.editorRect,
         _t: this.toolbarRoot,
+        _j: this.toolbarsJson,
       })}
     </div>`;
   }

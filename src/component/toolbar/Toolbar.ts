@@ -173,8 +173,6 @@ export class Toolbar extends Directive {
       this._toolbarStyle = this._menuButtonStyle = {
         display: "none",
       };
-      if (this._currentTarget instanceof LitElement)
-        new ContextToolbar(this._currentTarget);
     } else {
       const rect = prop._c,
         dRect = this._currentTarget?.shadowRoot

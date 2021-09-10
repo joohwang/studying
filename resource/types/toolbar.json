@@ -1,0 +1,3 @@
+{
+    "toolbars" : [{"type" : "text", "claz":"TextToolbar"}, {"type": "image", "claz" : "ImageToolbar"}, {"type": null, "claz" : "./BasicToolbar.ts"}]
+}

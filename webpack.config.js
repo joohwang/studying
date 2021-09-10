@@ -8,6 +8,7 @@ module.exports = {
             exclude : '/node_modules/'
         }]
     },
+    mode: "development",
     resolve : {
         extensions : ['.ts', '.js']
     },

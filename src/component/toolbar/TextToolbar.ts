@@ -1,7 +1,11 @@
 import { ContextToolbar } from "./ContextToolbar";
 
 export class TextToolbar extends ContextToolbar {
-  constructor(params) {
-    super(params);
+  subTypeRender() {
+    throw new Error("Method not implemented.");
+  }
+
+  public static type() {
+    return "text";
   }
 }
